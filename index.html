@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#F8F1E8" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>Una sorpresa te espera ❤️</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&family=Parisienne&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   PALETA + BASE
+   ============================================================ */
+:root{
+  --bordo:        #8B1E2D;
+  --bordo-dark:   #5E101A;
+  --bordo-soft:   #A8394A;
+  --crema:        #F8F1E8;
+  --crema-dark:   #EFE3D4;
+  --rosa:         #E8A0A8;
+  --rosa-soft:    #F3CDD1;
+  --blanco:       #FFFCF7;
+  --sombra:       0 10px 30px rgba(94,16,26,.10), 0 2px 6px rgba(94,16,26,.06);
+  --sombra-soft:  0 4px 14px rgba(94,16,26,.08);
+  --serif:  'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --hand:   'Parisienne', 'Segoe Script', cursive;
+  --sans:   'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+
+html,body{
+  margin:0; padding:0; width:100%; max-width:100%;
+  overflow-x:hidden;
+  overscroll-behavior-y:none;
+}
+html{
+  -webkit-text-size-adjust:100%;   /* iOS no agranda el texto en horizontal */
+  text-size-adjust:100%;
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  min-height:100svh;               /* alto real del celular, sin la barra del navegador */
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;       /* sin zoom por doble toque ni retardo de 300ms */
+  background-color:var(--crema);
+  background-image:
+    radial-gradient(circle at 12% 8%,  rgba(232,160,168,.20), transparent 42%),
+    radial-gradient(circle at 88% 12%, rgba(139,30,45,.08),  transparent 40%),
+    radial-gradient(circle at 50% 100%,rgba(232,160,168,.16), transparent 55%);
+  color:var(--bordo-dark);
+  font-family:var(--sans);
+  font-weight:300;
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+}
+
+/* textura de papel muy sutil */
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+}
+
+/* corazones flotando de fondo */
+.hearts-bg{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+.hearts-bg span{
+  position:absolute; bottom:-40px;
+  color:var(--rosa); opacity:0;
+  font-size:14px;
+  animation:floatUp linear infinite;
+}
+@keyframes floatUp{
+  0%   { transform:translateY(0) rotate(0deg) scale(.8);   opacity:0; }
+  12%  { opacity:.45; }
+  80%  { opacity:.25; }
+  100% { transform:translateY(-112vh) rotate(22deg) scale(1.05); opacity:0; }
+}
+
+.wrap{
+  position:relative; z-index:1;
+  width:100%;
+  max-width:560px;
+  margin:0 auto;
+  padding-top:calc(26px + env(safe-area-inset-top));
+  padding-bottom:calc(46px + env(safe-area-inset-bottom));
+  padding-left:calc(18px + env(safe-area-inset-left));
+  padding-right:calc(18px + env(safe-area-inset-right));
+}
+@media (max-width:359px){
+  .wrap{ padding-left:calc(12px + env(safe-area-inset-left)); padding-right:calc(12px + env(safe-area-inset-right)); }
+}
+
+/* nada decorativo se puede seleccionar sin querer al tocar */
+.eyebrow,.rule,.hearts,.count,.slot,.stamp,.lock,.foot,.q-num,.tick,.sl{
+  -webkit-user-select:none; user-select:none;
+}
+
+/* ============================================================
+   PANTALLAS
+   ============================================================ */
+.screen{ display:none; }
+.screen.active{ display:block; animation:screenIn .85s cubic-bezier(.22,.9,.28,1) both; }
+@keyframes screenIn{
+  from{ opacity:0; transform:translateY(22px); }
+  to  { opacity:1; transform:translateY(0); }
+}
+.screen.leaving{ animation:screenOut .38s ease forwards; }
+@keyframes screenOut{ to{ opacity:0; transform:translateY(-14px); } }
+
+/* aparición escalonada */
+.rise{ animation:riseIn .9s cubic-bezier(.22,.9,.28,1) both; }
+@keyframes riseIn{
+  from{ opacity:0; transform:translateY(16px); }
+  to  { opacity:1; transform:translateY(0); }
+}
+.d1{ animation-delay:.10s } .d2{ animation-delay:.24s } .d3{ animation-delay:.40s }
+.d4{ animation-delay:.56s } .d5{ animation-delay:.72s } .d6{ animation-delay:.88s }
+
+/* ============================================================
+   TIPOGRAFÍA / ORNAMENTOS
+   ============================================================ */
+h1,h2,h3{ font-family:var(--serif); font-weight:500; margin:0; letter-spacing:.02em; }
+
+.eyebrow{
+  font-family:var(--sans);
+  font-size:11px; letter-spacing:.30em; text-transform:uppercase;
+  color:var(--bordo-soft); font-weight:400;
+}
+
+.hand{ font-family:var(--hand); color:var(--bordo); line-height:1.5; }
+
+.rule{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  color:var(--rosa); margin:16px 0;
+}
+.rule::before,.rule::after{
+  content:""; height:1px; flex:1; max-width:110px;
+  background:linear-gradient(90deg,transparent,var(--rosa),transparent);
+}
+.rule svg{ width:13px; height:13px; fill:var(--rosa); flex:none; }
+
+/* ============================================================
+   TARJETA "PAPEL"
+   ============================================================ */
+.card{
+  position:relative;
+  background:var(--blanco);
+  border:1px solid rgba(139,30,45,.16);
+  border-radius:3px;
+  box-shadow:var(--sombra);
+  padding:24px 20px;
+}
+.card::after{ /* filete interior fino */
+  content:"";
+  position:absolute; inset:6px;
+  border:1px solid rgba(232,160,168,.42);
+  border-radius:2px;
+  pointer-events:none;
+}
+
+/* sello postal decorativo */
+.stamp{
+  position:absolute; top:-13px; right:14px;
+  width:44px; height:52px;
+  z-index:2;
+  filter:drop-shadow(0 3px 5px rgba(94,16,26,.16));
+  transform:rotate(6deg);
+}
+
+/* ============================================================
+   BOTONES
+   ============================================================ */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  width:100%;
+  min-height:54px;
+  padding:15px 22px;
+  border:none; border-radius:2px;
+  background:linear-gradient(160deg,var(--bordo) 0%,var(--bordo-dark) 100%);
+  color:var(--crema);
+  font-family:var(--sans); font-size:13px; font-weight:400;
+  letter-spacing:.22em; text-transform:uppercase;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(94,16,26,.24);
+  transition:transform .22s ease, box-shadow .22s ease, filter .22s ease;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  text-decoration:none;
+  -webkit-user-select:none; user-select:none;
+  -webkit-appearance:none; appearance:none;
+}
+/* el hover solo en dispositivos con mouse: en el celular quedaba "pegado" */
+@media (hover:hover){
+  .btn:hover{ transform:translateY(-2px); box-shadow:0 10px 24px rgba(94,16,26,.30); filter:brightness(1.06); }
+}
+.btn:active{ transform:translateY(0) scale(.985); }
+.btn.ghost{
+  background:transparent; color:var(--bordo);
+  border:1px solid rgba(139,30,45,.35); box-shadow:none;
+  min-height:48px;
+}
+@media (hover:hover){
+  .btn.ghost:hover{ background:rgba(232,160,168,.14); box-shadow:none; }
+}
+
+.linkish{
+  display:inline-flex; align-items:center; justify-content:center; gap:7px;
+  min-height:46px;                 /* área táctil cómoda */
+  background:none; border:none; padding:10px 14px;
+  color:var(--bordo-soft);
+  font-family:var(--serif); font-size:16.5px; font-style:italic;
+  cursor:pointer; text-decoration:underline;
+  text-decoration-color:rgba(232,160,168,.75);
+  text-underline-offset:4px;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+@media (hover:hover){ .linkish:hover{ color:var(--bordo); } }
+.linkish:active{ transform:scale(.97); }
+
+/* ============================================================
+   1 · BIENVENIDA
+   ============================================================ */
+#screen-welcome{ text-align:center; padding-top:6vh; }
+#screen-welcome .hero-lock{ margin:6px auto 4px; }
+#screen-welcome h1{
+  font-size:clamp(27px,8vw,38px);
+  line-height:1.15;
+  color:var(--bordo-dark);
+  margin:10px 0 0;
+}
+#screen-welcome .sub{
+  font-family:var(--serif);
+  font-size:clamp(17px,4.6vw,20px);
+  line-height:1.62;
+  color:var(--bordo);
+  margin:14px auto 0;
+  max-width:330px;
+}
+#screen-welcome .ask{
+  font-family:var(--hand);
+  font-size:clamp(26px,7.6vw,34px);
+  color:var(--bordo);
+  margin:20px 0 26px;
+}
+.welcome-card{ padding:30px 22px 26px; }
+
+/* ============================================================
+   2 · CANDADO
+   ============================================================ */
+.lock-stage{ text-align:center; padding:6px 0 2px; }
+
+.lock{
+  width:clamp(132px,40vw,168px);
+  height:auto;
+  display:block; margin:0 auto;
+  overflow:visible;
+  filter:drop-shadow(0 12px 20px rgba(94,16,26,.20));
+  animation:sway 5.5s ease-in-out infinite;
+}
+@keyframes sway{
+  0%,100%{ transform:rotate(-1.6deg) translateY(0); }
+  50%    { transform:rotate(1.6deg)  translateY(-5px); }
+}
+/* --- piezas internas del candado --- */
+.lock .shackle,
+.lock .keyhole-group,
+.lock .lockbody,
+.lock .glow,
+.lock .shine{ transform-box:fill-box; }
+
+.lock .shackle{ transform-origin:92% 96%; }
+.lock .keyhole-group{ transform-origin:50% 26%; }
+.lock .lockbody{ transform-origin:50% 50%; }
+.lock .glow{ transform-origin:50% 50%; opacity:0; }
+.lock .shine{ opacity:0; }
+.lock .keyhole{ transition:fill .7s ease; }
+
+/* ---------- FASE 1 · forcejeo: el candado se resiste ---------- */
+.lock.unlocking{ animation:rattleHard 1.45s cubic-bezier(.36,.07,.19,.97) both; }
+@keyframes rattleHard{
+  0%,100%{ transform:translateX(0) rotate(0) scale(1); }
+  4%  { transform:translateX(-5px) rotate(-3deg); }
+  8%  { transform:translateX(5px)  rotate(3deg); }
+  12% { transform:translateX(-4px) rotate(-2.2deg); }
+  16% { transform:translateX(4px)  rotate(2.2deg); }
+  22% { transform:translateX(0) rotate(0); }
+  38% { transform:translateX(-6px) rotate(-3.6deg); }
+  43% { transform:translateX(6px)  rotate(3.6deg); }
+  48% { transform:translateX(-5px) rotate(-2.8deg); }
+  53% { transform:translateX(5px)  rotate(2.8deg); }
+  60% { transform:translateX(0) rotate(0); }
+  78% { transform:scale(1.05) rotate(-1.2deg); }
+  88% { transform:scale(1.02) rotate(1.2deg); }
+}
+/* la cerradura gira como si una llave la estuviera abriendo */
+.lock.unlocking .keyhole-group{ animation:keyTurn 1.45s cubic-bezier(.5,0,.3,1) both; }
+@keyframes keyTurn{
+  0%  { transform:rotate(0deg)   scale(1); }
+  25% { transform:rotate(-16deg) scale(1.03); }
+  50% { transform:rotate(12deg)  scale(1.03); }
+  72% { transform:rotate(-8deg)  scale(1.04); }
+  100%{ transform:rotate(0deg)   scale(1.06); }
+}
+/* el arco tironea hacia arriba sin poder salir todavía */
+.lock.unlocking .shackle{ animation:shackleTug 1.45s ease-in-out both; }
+@keyframes shackleTug{
+  0%,100%{ transform:translateY(0); }
+  20%    { transform:translateY(-3px); }
+  30%    { transform:translateY(0); }
+  55%    { transform:translateY(-4px); }
+  65%    { transform:translateY(0); }
+  90%    { transform:translateY(-2px); }
+}
+.lock.unlocking .glow{ animation:glowPulse 1.45s ease-in-out both; }
+@keyframes glowPulse{
+  0%,100%{ opacity:0;   transform:scale(.65); }
+  55%    { opacity:.55; transform:scale(1.05); }
+}
+
+/* ---------- FASE 2 · se abre ---------- */
+.lock.open{ animation:openPop 1.05s cubic-bezier(.2,1.35,.35,1) both; }
+@keyframes openPop{
+  0%  { transform:scale(1) rotate(0); }
+  18% { transform:scale(.955) rotate(0); }
+  45% { transform:scale(1.075) rotate(-1.5deg); }
+  70% { transform:scale(.995) rotate(1deg); }
+  100%{ transform:scale(1) rotate(0); }
+}
+/* el arco salta, se libera y gira */
+.lock.open .shackle{ animation:shackleOpen 1.25s cubic-bezier(.34,1.5,.4,1) both; }
+@keyframes shackleOpen{
+  0%  { transform:translateY(0)     rotate(0deg); }
+  16% { transform:translateY(-23px) rotate(0deg); }
+  34% { transform:translateY(-22px) rotate(-6deg); }
+  70% { transform:translateY(-17px) rotate(36deg); }
+  86% { transform:translateY(-15px) rotate(23deg); }
+  100%{ transform:translateY(-16px) rotate(28deg); }
+}
+.lock.open .lockbody{ animation:bodySettle 1.25s cubic-bezier(.34,1.4,.4,1) both; }
+@keyframes bodySettle{
+  0%  { transform:translateY(0); }
+  20% { transform:translateY(5px); }
+  55% { transform:translateY(-2px); }
+  100%{ transform:translateY(0); }
+}
+.lock.open .keyhole{ fill:var(--rosa); }
+.lock.open .keyhole-group{ animation:keyRelease 1.1s cubic-bezier(.34,1.4,.4,1) both; }
+@keyframes keyRelease{
+  0%  { transform:rotate(0deg)   scale(1.06); }
+  35% { transform:rotate(-11deg) scale(1.18); }
+  70% { transform:rotate(4deg)   scale(1.02); }
+  100%{ transform:rotate(0deg)   scale(1); }
+}
+.lock.open .glow{ animation:glowFlash 1.15s ease-out both; }
+@keyframes glowFlash{
+  0%  { opacity:.85; transform:scale(.75); }
+  100%{ opacity:0;   transform:scale(2.3); }
+}
+/* destello metálico que recorre el cuerpo */
+.lock.open .shine{ animation:shineSweep 1.15s ease-out .22s both; }
+@keyframes shineSweep{
+  0%  { opacity:0;  transform:translateX(-20px) skewX(-18deg); }
+  18% { opacity:.95; }
+  100%{ opacity:0;  transform:translateX(215px) skewX(-18deg); }
+}
+
+/* ---------- FASE 3 · queda colgando, abierto ---------- */
+.lock.hanging{
+  animation:hangSwing 4.2s ease-in-out infinite;
+  transform-origin:50% 26%;
+}
+@keyframes hangSwing{
+  0%,100%{ transform:rotate(-3.2deg); }
+  50%    { transform:rotate(3.2deg); }
+}
+.lock.hanging .shackle{ transform:translateY(-16px) rotate(28deg); animation:none; }
+.lock.hanging .keyhole-group{ transform:none; animation:none; }
+.lock.hanging .keyhole{ fill:var(--rosa); }
+
+.lock-caption{
+  font-family:var(--serif); font-style:italic;
+  font-size:clamp(16px,4.2vw,18px);
+  color:var(--bordo);
+  margin:14px auto 0; max-width:300px; line-height:1.5;
+}
+
+/* --- casilleros del código --- */
+.code{
+  display:flex; flex-wrap:wrap; justify-content:center;
+  gap:clamp(5px,2vw,8px); margin:18px auto 2px;
+}
+.slot{
+  width:clamp(34px,11.2vw,44px);
+  height:clamp(44px,14vw,56px);
+  font-size:clamp(21px,6.4vw,26px);
+  display:flex; align-items:center; justify-content:center;
+  background:var(--blanco);
+  border:1px solid rgba(139,30,45,.22);
+  border-bottom:2px solid var(--rosa);
+  border-radius:2px;
+  font-family:var(--serif); font-weight:600;
+  color:var(--bordo-dark);
+  box-shadow:var(--sombra-soft);
+  position:relative;
+  transition:border-color .4s ease, background .4s ease;
+}
+.slot .dot{ color:var(--rosa); font-size:.78em; opacity:.65; }
+.slot.filled{
+  background:linear-gradient(170deg,#fff 0%,var(--crema) 100%);
+  border-color:rgba(139,30,45,.45);
+  border-bottom-color:var(--bordo);
+}
+.slot.filled .letter{ display:inline-block; animation:letterIn .6s cubic-bezier(.2,1.4,.4,1) both; }
+@keyframes letterIn{
+  0%  { opacity:0; transform:rotateX(-90deg) scale(.6); }
+  100%{ opacity:1; transform:rotateX(0) scale(1); }
+}
+
+/* --- progreso --- */
+.progress{ text-align:center; margin:18px 0 4px; }
+.hearts{ font-size:20px; letter-spacing:6px; line-height:1; color:var(--rosa); }
+.hearts .on{ color:var(--bordo); }
+.hearts .just{ display:inline-block; animation:beat .9s ease both; }
+@keyframes beat{
+  0%{ transform:scale(1) } 30%{ transform:scale(1.55) } 55%{ transform:scale(.92) } 100%{ transform:scale(1) }
+}
+.progress .count{
+  display:block; margin-top:9px;
+  font-size:10.5px; letter-spacing:.26em; text-transform:uppercase;
+  color:var(--bordo-soft);
+}
+
+/* ============================================================
+   PREGUNTAS
+   ============================================================ */
+#questions{ margin-top:26px; display:flex; flex-direction:column; gap:14px; }
+
+.q{
+  position:relative;
+  border-radius:3px;
+  transition:opacity .4s ease, transform .4s ease;
+  animation:riseIn .7s cubic-bezier(.22,.9,.28,1) both;
+}
+
+.q-num{
+  font-size:10px; letter-spacing:.30em; text-transform:uppercase;
+  color:var(--bordo-soft); margin-bottom:9px; display:block;
+}
+.q-text{
+  font-family:var(--serif);
+  font-size:clamp(19px,5vw,22px);
+  line-height:1.36;
+  color:var(--bordo-dark);
+  margin:0 0 18px;
+  padding-right:30px;
+}
+
+/* --- estado ACTIVA --- */
+.q.active{
+  background:var(--blanco);
+  border:1px solid rgba(139,30,45,.18);
+  box-shadow:var(--sombra);
+  padding:22px 18px 18px;
+}
+.q.active::after{
+  content:""; position:absolute; inset:6px;
+  border:1px solid rgba(232,160,168,.45); border-radius:2px; pointer-events:none;
+}
+
+.answer-row{ display:flex; gap:10px; align-items:stretch; }
+.answer-input{
+  flex:1 1 auto; min-width:0; width:100%;
+  height:58px;
+  background:var(--crema);
+  border:1px solid rgba(139,30,45,.24);
+  border-bottom:2px solid var(--rosa);
+  border-radius:2px;
+  font-family:var(--serif);
+  font-size:24px;                  /* nunca menos de 16px: evita el zoom de iOS */
+  color:var(--bordo-dark);
+  text-align:center;
+  padding:0 10px;
+  outline:none;
+  -webkit-appearance:none; appearance:none;
+  transition:border-color .25s ease, background .25s ease, box-shadow .25s ease;
+}
+.answer-input::placeholder{ color:rgba(139,30,45,.28); font-style:italic; font-size:18px; }
+.answer-input:focus{
+  border-color:var(--bordo);
+  background:var(--blanco);
+  box-shadow:0 0 0 3px rgba(232,160,168,.28);
+}
+.answer-input.single{
+  flex:0 0 clamp(64px,22vw,88px);
+  text-align:center; font-size:clamp(26px,8vw,30px); letter-spacing:.02em;
+  padding:0 4px;
+}
+.btn-check{
+  flex:1 1 0; min-width:0;
+  min-height:58px; padding:0 10px;
+  font-size:clamp(10.5px,3.1vw,11.5px);
+  letter-spacing:clamp(.10em,.6vw,.20em);
+  white-space:nowrap;
+}
+/* ---------- estado "comprobando" ---------- */
+.btn-check.checking{
+  pointer-events:none;
+  background:linear-gradient(160deg,var(--bordo-soft) 0%,var(--bordo) 100%);
+}
+.btn .dots{ display:inline-flex; gap:3px; margin-left:2px; }
+.btn .dots i{
+  font-style:normal; font-size:9px; line-height:1;
+  color:var(--rosa-soft); opacity:.25;
+  animation:dotBeat 1.05s ease-in-out infinite;
+}
+.btn .dots i:nth-child(2){ animation-delay:.16s; }
+.btn .dots i:nth-child(3){ animation-delay:.32s; }
+@keyframes dotBeat{
+  0%,72%,100%{ opacity:.25; transform:scale(.8); }
+  36%        { opacity:1;   transform:scale(1.25); }
+}
+
+.answer-input.checking{
+  color:var(--bordo-soft);
+  animation:inputPulse 1s ease-in-out infinite;
+}
+@keyframes inputPulse{
+  0%,100%{ box-shadow:0 0 0 0 rgba(232,160,168,0); }
+  50%    { box-shadow:0 0 0 4px rgba(232,160,168,.30); }
+}
+
+/* línea que recorre la tarjeta mientras comprueba */
+.scan{
+  position:absolute; left:7px; right:7px; bottom:7px;
+  height:2px; overflow:hidden; opacity:0;
+  transition:opacity .2s ease; pointer-events:none;
+}
+.q.active.is-checking .scan{ opacity:1; }
+.scan span{
+  position:absolute; inset:0;
+  background:linear-gradient(90deg,transparent,var(--rosa),var(--bordo),var(--rosa),transparent);
+  transform:translateX(-102%);
+}
+.q.active.is-checking .scan span{ animation:scanMove 1.05s cubic-bezier(.4,0,.3,1) infinite; }
+@keyframes scanMove{
+  0%  { transform:translateX(-102%); }
+  100%{ transform:translateX(102%); }
+}
+
+/* el candado "escucha" mientras se comprueba */
+.lock.thinking .keyhole-group{ animation:thinkPulse 1.05s ease-in-out infinite; }
+@keyframes thinkPulse{
+  0%,100%{ transform:scale(1) rotate(0); }
+  50%    { transform:scale(1.13) rotate(-7deg); }
+}
+.lock.thinking .glow{ animation:glowSoft 1.05s ease-in-out infinite; }
+@keyframes glowSoft{
+  0%,100%{ opacity:0;   transform:scale(.7); }
+  50%    { opacity:.30; transform:scale(.98); }
+}
+
+.feedback.checking{ color:var(--bordo-soft); opacity:1; }
+
+.shake{ animation:shake .5s cubic-bezier(.36,.07,.19,.97) both; }
+@keyframes shake{
+  10%,90%{ transform:translateX(-2px) } 20%,80%{ transform:translateX(4px) }
+  30%,50%,70%{ transform:translateX(-7px) } 40%,60%{ transform:translateX(7px) }
+}
+
+.feedback{
+  min-height:22px; margin-top:12px;
+  font-family:var(--serif); font-style:italic; font-size:16.5px;
+  text-align:center; color:var(--bordo-soft);
+  opacity:0; transition:opacity .3s ease;
+}
+.feedback.show{ opacity:1; animation:riseIn .45s ease both; }
+.feedback.ok{ color:var(--bordo); font-style:normal; }
+.feedback.ok b{
+  display:block;
+  font-family:var(--sans); font-size:11px; letter-spacing:.26em;
+  text-transform:uppercase; margin-bottom:5px; font-weight:400;
+}
+
+/* --- pista --- */
+.hint-zone{ margin-top:6px; text-align:center; }
+.note{
+  overflow:hidden; max-height:0; opacity:0;
+  transition:max-height .5s cubic-bezier(.22,.9,.28,1), opacity .4s ease, margin .4s ease;
+}
+.note.open{ max-height:340px; opacity:1; margin-top:10px; }
+.note-inner{
+  position:relative;
+  background:linear-gradient(170deg,#FFF9F0 0%,var(--crema-dark) 100%);
+  border:1px dashed rgba(139,30,45,.34);
+  border-radius:2px;
+  padding:16px 16px 15px;
+  text-align:left;
+  transform:rotate(-.7deg);
+  box-shadow:var(--sombra-soft);
+}
+.note-inner .lbl{
+  font-size:9.5px; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--bordo-soft); display:block; margin-bottom:7px;
+}
+.note-inner p{
+  margin:0; font-family:var(--serif); font-size:17px; line-height:1.52; color:var(--bordo-dark);
+}
+.note-inner .page{
+  display:inline-block; margin-top:11px;
+  font-family:var(--sans); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--bordo); background:rgba(232,160,168,.28);
+  border:1px solid rgba(139,30,45,.22);
+  padding:6px 11px; border-radius:2px;
+}
+.note-inner .whisper{
+  display:block; margin-top:12px;
+  font-family:var(--hand); font-size:20px; color:var(--bordo-soft); line-height:1.35;
+}
+
+/* --- estado RESUELTA --- */
+.q.solved{
+  background:rgba(255,252,247,.62);
+  border:1px solid rgba(139,30,45,.12);
+  padding:14px 16px;
+  display:flex; align-items:center; gap:12px;
+}
+.q.solved .tick{
+  flex:none; width:26px; height:26px; border-radius:50%;
+  background:var(--bordo); color:var(--crema);
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px;
+}
+.q.solved .sq{
+  flex:1 1 auto; min-width:0;
+  font-family:var(--serif); font-size:16px; line-height:1.35;
+  color:var(--bordo-soft);
+}
+.q.solved .sl{
+  flex:none;
+  font-family:var(--serif); font-size:22px; font-weight:600; color:var(--bordo);
+  border:1px solid rgba(139,30,45,.28); border-radius:2px;
+  min-width:34px; height:38px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--blanco);
+}
+
+/* --- estado BLOQUEADA --- */
+.q.locked{
+  background:rgba(239,227,212,.42);
+  border:1px dashed rgba(139,30,45,.20);
+  padding:16px;
+  display:flex; align-items:center; gap:12px;
+  opacity:.72;
+}
+.q.locked .mini{ flex:none; width:20px; height:20px; fill:var(--bordo-soft); opacity:.8; }
+.q.locked .txt{
+  font-family:var(--serif); font-style:italic; font-size:15.5px; color:var(--bordo-soft);
+}
+
+/* ============================================================
+   FINAL
+   ============================================================ */
+#final{
+  display:none;
+  margin-top:26px;
+  text-align:center;
+}
+#final.show{ display:block; animation:riseIn 1s cubic-bezier(.22,.9,.28,1) both; }
+#final .card{ padding:30px 22px 26px; }
+#final h2{
+  font-size:clamp(24px,6.6vw,31px);
+  color:var(--bordo-dark);
+  letter-spacing:.06em;
+}
+#final .l1{
+  font-family:var(--serif); font-size:19px; color:var(--bordo); margin:14px 0 4px;
+}
+#final .l2{
+  font-family:var(--hand); font-size:25px; color:var(--bordo-soft); margin:0 0 24px;
+}
+
+/* estallido de corazones al abrir */
+.burst{ position:fixed; inset:0; pointer-events:none; z-index:40; }
+.burst i{
+  position:absolute; font-style:normal; color:var(--bordo);
+  animation:burstUp 1.9s ease-out forwards;
+}
+@keyframes burstUp{
+  0%  { opacity:0; transform:translate(0,0) scale(.4); }
+  15% { opacity:.9; }
+  100%{ opacity:0; transform:translate(var(--dx),-190px) scale(1.15); }
+}
+
+/* ============================================================
+   3 · CARTA FINAL
+   ============================================================ */
+#screen-letter{ padding-top:2vh; }
+.letter{
+  padding:34px 24px 30px;
+  background:
+    linear-gradient(180deg,#FFFDF9 0%,#FBF4EA 100%);
+}
+.letter .top-orn{ text-align:center; margin-bottom:6px; }
+.letter h2{
+  text-align:center;
+  font-size:clamp(26px,7vw,34px);
+  color:var(--bordo-dark);
+}
+.letter .body p{
+  font-family:var(--serif);
+  font-size:clamp(17px,4.4vw,18.5px);
+  line-height:1.78;
+  color:var(--bordo-dark);
+  margin:0 0 16px;
+}
+.letter .sign{
+  font-family:var(--hand);
+  font-size:clamp(28px,8vw,36px);
+  color:var(--bordo);
+  text-align:right;
+  margin-top:22px;
+}
+.letter .body p{ animation:riseIn .9s ease both; }
+
+/* ============================================================
+   PIE
+   ============================================================ */
+.foot{
+  text-align:center; margin-top:30px;
+  font-size:10px; letter-spacing:.24em; text-transform:uppercase;
+  color:rgba(139,30,45,.42);
+}
+.foot button{
+  background:none; border:none; cursor:pointer;
+  color:rgba(139,30,45,.34);
+  font-family:var(--sans); font-size:9.5px; letter-spacing:.2em; text-transform:uppercase;
+  margin-top:8px; text-decoration:underline; text-underline-offset:3px;
+}
+
+/* ============================================================
+   CELULARES BAJITOS / HORIZONTAL
+   ============================================================ */
+@media (max-height:720px){
+  .wrap{ padding-top:calc(16px + env(safe-area-inset-top)); }
+  #screen-welcome{ padding-top:1vh; }
+  .welcome-card{ padding:22px 18px 20px; }
+  #screen-welcome .hero-lock .lock{ width:clamp(104px,31vw,132px); }
+  #screen-welcome .sub{ margin-top:10px; }
+  #screen-welcome .ask{ margin:14px 0 18px; }
+  .rule{ margin:12px 0; }
+}
+@media (max-height:560px) and (orientation:landscape){
+  #screen-welcome .hero-lock .lock{ width:96px; }
+  #screen-welcome h1{ font-size:26px; }
+  #screen-welcome .sub{ font-size:16px; }
+  #screen-welcome .ask{ font-size:23px; margin:10px 0 14px; }
+  .lock{ width:clamp(96px,20vw,132px); }
+}
+
+/* ============================================================
+   BARRA FIJA DE PROGRESO (aparece al bajar, clave en celular)
+   ============================================================ */
+.minibar{
+  position:fixed; top:0; left:0; right:0; z-index:30;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  padding:8px 12px;
+  padding-top:calc(8px + env(safe-area-inset-top));
+  background:rgba(248,241,232,.93);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(139,30,45,.16);
+  box-shadow:0 2px 12px rgba(94,16,26,.07);
+  transform:translateY(-102%);
+  transition:transform .38s cubic-bezier(.22,.9,.28,1);
+  -webkit-user-select:none; user-select:none;
+  pointer-events:none;
+}
+.minibar.show{ transform:translateY(0); }
+.mb-code{ display:flex; gap:4px; flex-wrap:nowrap; overflow:hidden; }
+.mb-slot{
+  width:20px; height:26px; flex:none;
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid rgba(139,30,45,.22);
+  border-bottom:2px solid var(--rosa);
+  border-radius:2px;
+  background:var(--blanco);
+  font-family:var(--serif); font-size:14px; font-weight:600; color:var(--bordo-dark);
+  line-height:1;
+}
+.mb-slot.filled{ border-bottom-color:var(--bordo); background:linear-gradient(170deg,#fff,var(--crema)); }
+.mb-slot .d{ color:var(--rosa); opacity:.6; font-size:11px; }
+.mb-count{
+  font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--bordo-soft); white-space:nowrap;
+}
+@media (max-width:359px){
+  .mb-slot{ width:17px; height:23px; font-size:12px; }
+  .mb-count{ font-size:9px; letter-spacing:.12em; }
+}
+
+/* la tarjeta activa nunca queda tapada por la barra */
+#questions .q{ scroll-margin-top:84px; scroll-margin-bottom:24px; }
+.lock-stage{ scroll-margin-top:70px; }
+#final{ scroll-margin-top:70px; }
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+}
+</style>
+</head>
+
+<body>
+<div class="hearts-bg" id="heartsBg" aria-hidden="true"></div>
+
+<!-- barra de progreso que aparece al bajar (sobre todo en celular) -->
+<div class="minibar" id="minibar" aria-hidden="true">
+  <div class="mb-code" id="mbCode"></div>
+  <span class="mb-count" id="mbCount"></span>
+</div>
+
+<!-- ===== SVG reutilizables ===== -->
+<svg style="display:none" aria-hidden="true">
+  <defs>
+    <linearGradient id="gBody" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0%"   stop-color="#A8394A"/>
+      <stop offset="55%"  stop-color="#8B1E2D"/>
+      <stop offset="100%" stop-color="#5E101A"/>
+    </linearGradient>
+    <linearGradient id="gShackle" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#A8394A"/>
+      <stop offset="100%" stop-color="#5E101A"/>
+    </linearGradient>
+    <radialGradient id="gGlow">
+      <stop offset="0%"   stop-color="#F8F1E8" stop-opacity=".95"/>
+      <stop offset="45%"  stop-color="#E8A0A8" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#E8A0A8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gShine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#FFFCF7" stop-opacity="0"/>
+      <stop offset="50%"  stop-color="#FFFCF7" stop-opacity=".7"/>
+      <stop offset="100%" stop-color="#FFFCF7" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <symbol id="ic-heart" viewBox="0 0 24 24">
+    <path d="M12 21s-8-5.1-8-10.6C4 6.9 6.4 5 8.8 5c1.6 0 2.6.8 3.2 1.7C12.6 5.8 13.6 5 15.2 5 17.6 5 20 6.9 20 10.4 20 15.9 12 21 12 21z"/>
+  </symbol>
+  <symbol id="ic-lock-mini" viewBox="0 0 24 24">
+    <path d="M17 10h-1V7.5a4 4 0 1 0-8 0V10H7a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1zm-7.3 0V7.5a2.3 2.3 0 1 1 4.6 0V10z"/>
+  </symbol>
+</svg>
+
+<div class="wrap">
+
+<!-- ============================================================
+     PANTALLA 1 · BIENVENIDA
+     ============================================================ -->
+<section id="screen-welcome" class="screen active">
+
+  <div class="rise d1" style="text-align:center">
+    <span class="eyebrow">Edición especial · Solo para vos</span>
+  </div>
+
+  <div class="rule rise d1"><svg><use href="#ic-heart"/></svg></div>
+
+  <div class="card welcome-card rise d2">
+    <svg class="stamp" viewBox="0 0 44 52" aria-hidden="true">
+      <rect x="1.5" y="1.5" width="41" height="49" rx="2" fill="#FFFCF7" stroke="#8B1E2D" stroke-width="1.2" stroke-dasharray="3 2.4"/>
+      <rect x="6" y="6" width="32" height="40" rx="1.5" fill="none" stroke="#E8A0A8" stroke-width="1"/>
+      <path d="M22 38s-8-5.1-8-10.6C14 23.9 16.4 22 18.8 22c1.6 0 2.6.8 3.2 1.7.6-.9 1.6-1.7 3.2-1.7 2.4 0 4.8 1.9 4.8 5.4C30 32.9 22 38 22 38z" fill="#8B1E2D"/>
+      <text x="22" y="16" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#8B1E2D">1♥</text>
+    </svg>
+
+    <div class="hero-lock">
+      <!-- candado grande de bienvenida -->
+      <svg class="lock" viewBox="0 0 200 250" role="img" aria-label="Candado cerrado">
+        <g class="shackle">
+          <path d="M62 112 V78 a38 38 0 0 1 76 0 V112"
+                fill="none" stroke="url(#gShackle)" stroke-width="17" stroke-linecap="round"/>
+          <path d="M62 112 V78 a38 38 0 0 1 76 0 V112"
+                fill="none" stroke="rgba(255,252,247,.30)" stroke-width="3.4"
+                stroke-linecap="round" transform="translate(-3.5,-2)"/>
+        </g>
+        <rect x="28" y="106" width="144" height="126" rx="18" fill="url(#gBody)"/>
+        <rect x="28" y="106" width="144" height="126" rx="18" fill="none" stroke="#5E101A" stroke-width="1.5"/>
+        <rect x="38" y="116" width="124" height="106" rx="12" fill="none" stroke="rgba(248,241,232,.42)" stroke-width="1.2"/>
+        <rect x="44" y="122" width="112" height="94" rx="9" fill="none" stroke="rgba(248,241,232,.18)" stroke-width=".9"/>
+        <path class="keyhole" fill="#F8F1E8"
+              d="M100 176s-15-9.6-15-19.9c0-6.6 4.5-10.1 9-10.1 3 0 4.9 1.5 6 3.2 1.1-1.7 3-3.2 6-3.2 4.5 0 9 3.5 9 10.1 0 10.3-15 19.9-15 19.9z"/>
+        <rect class="keyhole" x="96" y="174" width="8" height="24" rx="4" fill="#F8F1E8"/>
+        <circle cx="52" cy="130" r="2.2" fill="rgba(248,241,232,.35)"/>
+        <circle cx="148" cy="130" r="2.2" fill="rgba(248,241,232,.35)"/>
+        <circle cx="52" cy="208" r="2.2" fill="rgba(248,241,232,.35)"/>
+        <circle cx="148" cy="208" r="2.2" fill="rgba(248,241,232,.35)"/>
+      </svg>
+    </div>
+
+    <h1 class="rise d3">Una sorpresa<br>te espera</h1>
+
+    <div class="rule rise d3"><svg><use href="#ic-heart"/></svg></div>
+
+    <p class="sub rise d4">
+      Hay algo guardado para vos...<br>
+      pero primero vas a tener que<br>descubrir el código.
+    </p>
+
+    <p class="ask rise d5" id="askLine">¿Te animás, Avril? ❤️</p>
+
+    <div class="rise d6">
+      <button class="btn" id="btnStart">Comenzar</button>
+    </div>
+  </div>
+
+  <p class="foot rise d6">Hecho a mano · con amor</p>
+</section>
+
+
+<!-- ============================================================
+     PANTALLA 2 · EL CANDADO
+     ============================================================ -->
+<section id="screen-lock" class="screen">
+
+  <div class="lock-stage">
+    <span class="eyebrow">El candado</span>
+
+    <svg class="lock" id="mainLock" viewBox="0 0 200 250" role="img" aria-label="Candado" style="margin-top:12px">
+      <defs>
+        <clipPath id="clipBody">
+          <rect x="28" y="106" width="144" height="126" rx="18"/>
+        </clipPath>
+      </defs>
+
+      <!-- resplandor detrás del cuerpo -->
+      <circle class="glow" cx="100" cy="169" r="62" fill="url(#gGlow)"/>
+
+      <g class="shackle">
+        <path d="M62 112 V78 a38 38 0 0 1 76 0 V112"
+              fill="none" stroke="url(#gShackle)" stroke-width="17" stroke-linecap="round"/>
+        <path d="M62 112 V78 a38 38 0 0 1 76 0 V112"
+              fill="none" stroke="rgba(255,252,247,.30)" stroke-width="3.4"
+              stroke-linecap="round" transform="translate(-3.5,-2)"/>
+      </g>
+
+      <g class="lockbody">
+        <rect x="28" y="106" width="144" height="126" rx="18" fill="url(#gBody)"/>
+        <rect x="28" y="106" width="144" height="126" rx="18" fill="none" stroke="#5E101A" stroke-width="1.5"/>
+        <rect x="38" y="116" width="124" height="106" rx="12" fill="none" stroke="rgba(248,241,232,.42)" stroke-width="1.2"/>
+        <rect x="44" y="122" width="112" height="94" rx="9" fill="none" stroke="rgba(248,241,232,.18)" stroke-width=".9"/>
+
+        <g class="keyhole-group">
+          <path class="keyhole" fill="#F8F1E8"
+                d="M100 176s-15-9.6-15-19.9c0-6.6 4.5-10.1 9-10.1 3 0 4.9 1.5 6 3.2 1.1-1.7 3-3.2 6-3.2 4.5 0 9 3.5 9 10.1 0 10.3-15 19.9-15 19.9z"/>
+          <rect class="keyhole" x="96" y="174" width="8" height="24" rx="4" fill="#F8F1E8"/>
+        </g>
+
+        <circle cx="52" cy="130" r="2.2" fill="rgba(248,241,232,.35)"/>
+        <circle cx="148" cy="130" r="2.2" fill="rgba(248,241,232,.35)"/>
+        <circle cx="52" cy="208" r="2.2" fill="rgba(248,241,232,.35)"/>
+        <circle cx="148" cy="208" r="2.2" fill="rgba(248,241,232,.35)"/>
+
+        <!-- destello metálico -->
+        <g clip-path="url(#clipBody)">
+          <rect class="shine" x="4" y="100" width="40" height="140" fill="url(#gShine)"/>
+        </g>
+      </g>
+    </svg>
+
+    <p class="lock-caption" id="lockCaption">Descubrí las respuestas y completá el código.</p>
+
+    <div class="code" id="code" aria-label="Código"></div>
+
+    <div class="progress">
+      <div class="hearts" id="hearts" aria-hidden="true"></div>
+      <span class="count" id="count">0 / 0 descubiertas</span>
+    </div>
+  </div>
+
+  <div class="rule"><svg><use href="#ic-heart"/></svg></div>
+
+  <div id="questions"></div>
+
+  <!-- desbloqueo final -->
+  <div id="final">
+    <div class="card">
+      <svg class="stamp" viewBox="0 0 44 52" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="41" height="49" rx="2" fill="#FFFCF7" stroke="#8B1E2D" stroke-width="1.2" stroke-dasharray="3 2.4"/>
+        <path d="M22 38s-8-5.1-8-10.6C14 23.9 16.4 22 18.8 22c1.6 0 2.6.8 3.2 1.7.6-.9 1.6-1.7 3.2-1.7 2.4 0 4.8 1.9 4.8 5.4C30 32.9 22 38 22 38z" fill="#8B1E2D"/>
+      </svg>
+      <h2>✨ Lo lograste ✨</h2>
+      <div class="rule"><svg><use href="#ic-heart"/></svg></div>
+      <p class="l1">Sabía que ibas a encontrarlo.</p>
+      <p class="l2">Pero esto todavía no termina...</p>
+      <button class="btn" id="btnSurprise">Descubrir mi sorpresa ❤️</button>
+    </div>
+  </div>
+
+  <p class="foot">
+    Revista · edición para vos
+    <br><button id="btnReset" type="button">reiniciar</button>
+  </p>
+</section>
+
+
+<!-- ============================================================
+     PANTALLA 3 · CARTA FINAL
+     ============================================================ -->
+<section id="screen-letter" class="screen">
+  <div class="card letter">
+    <svg class="stamp" viewBox="0 0 44 52" aria-hidden="true">
+      <rect x="1.5" y="1.5" width="41" height="49" rx="2" fill="#FFFCF7" stroke="#8B1E2D" stroke-width="1.2" stroke-dasharray="3 2.4"/>
+      <rect x="6" y="6" width="32" height="40" rx="1.5" fill="none" stroke="#E8A0A8" stroke-width="1"/>
+      <path d="M22 38s-8-5.1-8-10.6C14 23.9 16.4 22 18.8 22c1.6 0 2.6.8 3.2 1.7.6-.9 1.6-1.7 3.2-1.7 2.4 0 4.8 1.9 4.8 5.4C30 32.9 22 38 22 38z" fill="#8B1E2D"/>
+    </svg>
+
+    <div class="top-orn">
+      <svg width="54" height="20" viewBox="0 0 54 20" aria-hidden="true">
+        <path d="M2 10h16M36 10h16" stroke="#E8A0A8" stroke-width="1"/>
+        <path d="M27 16s-6-3.9-6-8.1C21 4.9 22.8 3.5 24.6 3.5c1.2 0 2 .6 2.4 1.3.4-.7 1.2-1.3 2.4-1.3C31.2 3.5 33 4.9 33 7.9 33 12.1 27 16 27 16z" fill="#8B1E2D"/>
+      </svg>
+    </div>
+
+    <h2 id="letterTitle"></h2>
+    <div class="rule"><svg><use href="#ic-heart"/></svg></div>
+    <div class="body" id="letterBody"></div>
+    <p class="sign" id="letterSign"></p>
+    <div id="letterBtnZone" style="margin-top:18px"></div>
+  </div>
+  <p class="foot">Fin · o quizás el principio ❤️</p>
+</section>
+
+</div><!-- /wrap -->
+
+
+<!-- =========================================================
+     DATOS (editables) · luego la lógica
+     ========================================================= -->
+<!-- Configuración editable. Si el archivo no está, se usan los valores de respaldo de abajo. -->
+<script src="data/questions.js"></script>
+
+<script>
+/* =====================================================================
+   VALORES DE RESPALDO
+   Son idénticos a los de data/questions.js y solo se usan si ese archivo
+   no se cargó (por ejemplo, si subiste el index.html solo).
+   👉 Para editar las preguntas usá data/questions.js.
+   Si preferís tener un único archivo, borrá la línea del <script src="...">
+   de arriba y editá directamente acá.
+   ===================================================================== */
+window.__DEFAULTS__ = {
+  HER_NAME: "Avril",
+  QUESTIONS: [
+    { id:1, question:"¿Primera inicial del apodo que te di?", answer:"P",
+      hint:"❤️ Pensá en ese apodo especial que solo yo te digo...", page:null, accept:[] },
+    { id:2, question:"¿Primera inicial de mi segundo nombre?", answer:"I",
+      hint:"👀 Mi nombre tiene una segunda parte... quizás la encuentres en alguna página de la revista.", page:null, accept:[] },
+    { id:3, question:"¿Primera inicial de mi perro?", answer:"F",
+      hint:"🐶 Hay alguien de cuatro patas que también forma parte de mi vida...", page:null, accept:[] },
+    { id:4, question:"¿Primera inicial de mi comida favorita?", answer:"Ñ",
+      hint:"🍽️ Esta respuesta puede ser un poquito tramposa... pensá en esa comida que tanto me gusta.", page:null, accept:[] },
+    { id:5, question:"¿Primera inicial de una comida que me encanta que me cocines?", answer:"T",
+      hint:"👨‍🍳 Hay una comida que me encanta cuando la preparás vos...", page:null, accept:[] }
+  ],
+  FINAL_SURPRISE_URL: "",
+  FINAL_MESSAGE: {
+    title: "Para vos, Avril",
+    lines: [
+      "Si llegaste hasta acá es porque te acordaste de todo. De los apodos, del perro, de las comidas, de las cosas chiquitas que nadie más sabe.",
+      "Y eso es exactamente lo que más me gusta de nosotros: que lo importante está escondido en los detalles.",
+      "Esta revista, este candado y esta pequeña aventura son mi manera de decirte que te pienso incluso cuando no estoy.",
+      "Gracias por ser mi lugar favorito."
+    ],
+    signature: "Te amo ❤️",
+    button: { label:"", url:"" }
+  },
+  CORRECT_PHRASES: [
+    "Sabía que lo ibas a recordar ❤️","Obvio que lo sabías 🤍","Esa memoria tuya me enamora ❤️",
+    "Perfecto. Seguimos...","Te dije que era fácil para vos ❤️"
+  ],
+  WRONG_PHRASES: [
+    "mmm... no es esa 👀","Pensalo un poquito más...","Estoy seguro de que lo sabés ❤️",
+    "Casi... probá de nuevo 🤍","No, mi amor. Volvé a la revista 📖"
+  ],
+  CHECKING_PHRASES: ["veamos...","dejame pensar...","probando la llave...","mmm... a ver...","un segundo ❤️"],
+  HINT_INTRO: "Quizás la respuesta esté escondida en alguna página de nuestra historia...",
+  CHECK_DELAY: 1000,
+  // false = siempre empieza de cero (hay que descubrir el código de nuevo)
+  SAVE_PROGRESS: false
+};
+</script>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- configuración: data/questions.js o respaldo ---------- */
+  var D = window.__DEFAULTS__;
+  function cfg(name, valid){
+    var v = window[name];
+    if(valid ? valid(v) : (v !== undefined && v !== null)) return v;
+    return D[name];
+  }
+  var isArr = function(v){ return Array.isArray(v) && v.length > 0; };
+
+  var QUESTIONS        = cfg("QUESTIONS", isArr);
+  var HER_NAME         = cfg("HER_NAME", function(v){ return typeof v === "string" && v; });
+  var FINAL_SURPRISE_URL = (typeof window.FINAL_SURPRISE_URL === "string") ? window.FINAL_SURPRISE_URL : D.FINAL_SURPRISE_URL;
+  var FINAL_MESSAGE    = cfg("FINAL_MESSAGE", function(v){ return v && typeof v === "object"; });
+  var CORRECT_PHRASES  = cfg("CORRECT_PHRASES", isArr);
+  var WRONG_PHRASES    = cfg("WRONG_PHRASES", isArr);
+  var CHECKING_LIST    = cfg("CHECKING_PHRASES", isArr);
+  var HINT_INTRO       = cfg("HINT_INTRO", function(v){ return typeof v === "string" && v; });
+  var CHECK_MS         = cfg("CHECK_DELAY", function(v){ return typeof v === "number" && v >= 0; });
+  var SAVE_PROGRESS    = (typeof window.SAVE_PROGRESS === "boolean") ? window.SAVE_PROGRESS : D.SAVE_PROGRESS;
+
+  if(!isArr(window.QUESTIONS)){
+    console.warn("[candado] No se cargó data/questions.js — se usan los valores de respaldo del index.html. " +
+                 "Revisá que exista la carpeta 'data' al lado del index.html.");
+  }
+
+  /* ---------- utilidades ---------- */
+  var $  = function(s,c){ return (c||document).querySelector(s); };
+  var el = function(t,c,h){ var n=document.createElement(t); if(c)n.className=c; if(h!=null)n.innerHTML=h; return n; };
+  var rnd= function(a){ return a[Math.floor(Math.random()*a.length)]; };
+
+  // normaliza: recorta, colapsa espacios y pasa a mayúsculas (la Ñ se conserva)
+  function norm(s){
+    return String(s == null ? "" : s).replace(/\s+/g," ").trim().toUpperCase();
+  }
+
+  var TOTAL = QUESTIONS.length;
+  var STORE_KEY = "candado_avril_v1";
+
+  /* ---------- estado ---------- */
+  var solved = QUESTIONS.map(function(){ return false; });
+  var finished = false;
+
+  function save(){
+    if(!SAVE_PROGRESS) return;
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify({n:TOTAL, s:solved})); }catch(e){}
+  }
+  function load(){
+    // sin guardado: se borra cualquier rastro anterior y siempre arranca de cero
+    if(!SAVE_PROGRESS){ wipe(); return; }
+    try{
+      var raw = localStorage.getItem(STORE_KEY);
+      if(!raw) return;
+      var d = JSON.parse(raw);
+      // si cambió la cantidad de preguntas, se reinicia solo
+      if(!d || d.n !== TOTAL || !Array.isArray(d.s)) return;
+      solved = d.s.map(function(v){ return !!v; });
+    }catch(e){}
+  }
+  function wipe(){ try{ localStorage.removeItem(STORE_KEY); }catch(e){} }
+
+  function solvedCount(){
+    return solved.reduce(function(a,b){ return a + (b?1:0); },0);
+  }
+  function currentIndex(){
+    for(var i=0;i<TOTAL;i++){ if(!solved[i]) return i; }
+    return -1;
+  }
+
+  /* ---------- ¿pantalla táctil? ---------- */
+  var isTouch = (function(){
+    try{ return window.matchMedia && window.matchMedia("(hover:none)").matches; }
+    catch(e){ return false; }
+  })();
+
+  /* ---------- barra fija de progreso ---------- */
+  var mbTick = false;
+  function updateMinibar(){
+    var mb = $("#minibar");
+    if(!mb) return;
+    var onLock = $("#screen-lock").classList.contains("active");
+    if(!onLock){ mb.classList.remove("show"); return; }
+    var r = $("#mainLock").getBoundingClientRect();
+    mb.classList.toggle("show", r.bottom < 8);
+  }
+  function onScroll(){
+    if(mbTick) return;
+    mbTick = true;
+    (window.requestAnimationFrame || function(f){ setTimeout(f,60); })(function(){
+      mbTick = false;
+      updateMinibar();
+    });
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  window.addEventListener("resize", onScroll);
+  window.addEventListener("orientationchange", function(){ setTimeout(updateMinibar,300); });
+
+  /* ---------- corazones de fondo ---------- */
+  (function bgHearts(){
+    var box = $("#heartsBg");
+    var glyphs = ["♥","♡","♥"];
+    for(var i=0;i<11;i++){
+      var s = el("span",null,glyphs[i%3]);
+      s.style.left = (4 + Math.random()*92) + "%";
+      s.style.fontSize = (9 + Math.random()*11) + "px";
+      s.style.animationDuration = (17 + Math.random()*16) + "s";
+      s.style.animationDelay = (-Math.random()*28) + "s";
+      box.appendChild(s);
+    }
+  })();
+
+  /* ---------- código + progreso ---------- */
+  function renderCode(justIndex){
+    var box = $("#code");
+    var mini = $("#mbCode");
+    box.innerHTML = "";
+    mini.innerHTML = "";
+    QUESTIONS.forEach(function(q,i){
+      var slot = el("div","slot" + (solved[i] ? " filled" : ""));
+      var ms   = el("div","mb-slot" + (solved[i] ? " filled" : ""));
+      if(solved[i]){
+        slot.appendChild(el("span","letter", norm(q.answer)));
+        ms.appendChild(el("span",null, norm(q.answer)));
+      }else{
+        slot.appendChild(el("span","dot","·"));
+        ms.appendChild(el("span","d","·"));
+      }
+      box.appendChild(slot);
+      mini.appendChild(ms);
+    });
+    $("#mbCount").textContent = solvedCount() + " / " + TOTAL;
+  }
+
+  function renderProgress(justIndex){
+    var h = $("#hearts");
+    h.innerHTML = "";
+    QUESTIONS.forEach(function(q,i){
+      var cls = solved[i] ? "on" : "";
+      if(justIndex === i) cls += " just";
+      h.appendChild(el("span",cls, solved[i] ? "♥" : "♡"));
+    });
+    var n = solvedCount();
+    $("#count").textContent = n + " / " + TOTAL + " descubiertas";
+    $("#lockCaption").textContent = n === TOTAL
+      ? "El código está completo."
+      : "Descubrí las respuestas y completá el código.";
+  }
+
+  /* ---------- preguntas ---------- */
+  function renderQuestions(){
+    var box = $("#questions");
+    box.innerHTML = "";
+    var cur = currentIndex();
+
+    QUESTIONS.forEach(function(q,i){
+      var node;
+
+      if(solved[i]){
+        node = el("div","q solved");
+        node.appendChild(el("div","tick","✓"));
+        node.appendChild(el("div","sq", q.question));
+        node.appendChild(el("div","sl", norm(q.answer)));
+
+      }else if(i === cur){
+        node = el("div","q active");
+        node.id = "q-active";
+
+        node.appendChild(el("div","stamp-holder",
+          '<svg class="stamp" viewBox="0 0 44 52" aria-hidden="true">' +
+          '<rect x="1.5" y="1.5" width="41" height="49" rx="2" fill="#FFFCF7" stroke="#8B1E2D" stroke-width="1.2" stroke-dasharray="3 2.4"/>' +
+          '<path d="M22 34s-7-4.5-7-9.3c0-3.1 2.1-4.7 4.2-4.7 1.4 0 2.3.7 2.8 1.5.5-.8 1.4-1.5 2.8-1.5 2.1 0 4.2 1.6 4.2 4.7C29 29.5 22 34 22 34z" fill="#8B1E2D"/>' +
+          '<text x="22" y="14" text-anchor="middle" font-family="Georgia,serif" font-size="8" fill="#8B1E2D">' + (i+1) + '</text>' +
+          '</svg>'));
+
+        node.appendChild(el("span","q-num","Pregunta " + (i+1) + " de " + TOTAL));
+        node.appendChild(el("p","q-text", q.question));
+
+        var isSingle = norm(q.answer).length === 1;
+
+        var row = el("div","answer-row");
+        var input = el("input","answer-input" + (isSingle ? " single" : ""));
+        input.type = "text";
+        input.setAttribute("autocomplete","off");
+        input.setAttribute("autocorrect","off");
+        input.setAttribute("autocapitalize","characters");
+        input.setAttribute("spellcheck","false");
+        input.setAttribute("enterkeyhint","go");
+        input.setAttribute("aria-label","Tu respuesta");
+        input.placeholder = isSingle ? "?" : "escribí acá";
+        if(isSingle) input.maxLength = 2;
+        var btn = el("button","btn btn-check","Comprobar");
+        btn.type = "button";
+        row.appendChild(input);
+        row.appendChild(btn);
+        node.appendChild(row);
+
+        // al abrirse el teclado del celular, la tarjeta queda a la vista
+        input.addEventListener("focus", function(){
+          if(!isTouch) return;
+          setTimeout(function(){
+            node.scrollIntoView({behavior:"smooth", block:"center"});
+          }, 320);
+        });
+
+        var fb = el("div","feedback");
+        node.appendChild(fb);
+
+        var scan = el("div","scan",'<span></span>');
+        node.appendChild(scan);
+
+        // ----- pista -----
+        var hz = el("div","hint-zone");
+        var hbtn = el("button","linkish","📖 ¿Necesitás una pista?");
+        hbtn.type = "button";
+        var note = el("div","note");
+        var inner = el("div","note-inner");
+        inner.appendChild(el("span","lbl","Una pequeña ayuda"));
+        inner.appendChild(el("p",null, q.hint || HINT_INTRO));
+        if(q.page != null && q.page !== ""){
+          inner.appendChild(el("span","page","📖 Volvé a mirar la página " + q.page + "..."));
+        }
+        inner.appendChild(el("span","whisper", HINT_INTRO));
+        note.appendChild(inner);
+        hbtn.addEventListener("click", function(){
+          var open = note.classList.toggle("open");
+          hbtn.innerHTML = open ? "✕ Cerrar la pista" : "📖 ¿Necesitás una pista?";
+        });
+        hz.appendChild(hbtn);
+        hz.appendChild(note);
+        node.appendChild(hz);
+
+        // ----- comprobar -----
+        var checking = false;
+
+        function check(){
+          if(checking) return;
+          var val = norm(input.value);
+          if(!val){
+            input.focus();
+            row.classList.remove("shake");
+            void row.offsetWidth;
+            row.classList.add("shake");
+            return;
+          }
+
+          // ---- animación de "comprobando" ----
+          checking = true;
+          input.blur();
+          input.readOnly = true;
+          input.classList.add("checking");
+          btn.classList.add("checking");
+          btn.innerHTML = 'Comprobando<span class="dots"><i>♥</i><i>♥</i><i>♥</i></span>';
+          node.classList.add("is-checking");
+          $("#mainLock").classList.add("thinking");
+          fb.className = "feedback show checking";
+          fb.textContent = rnd(CHECKING_LIST);
+
+          setTimeout(function(){
+            checking = false;
+            input.readOnly = false;
+            input.classList.remove("checking");
+            btn.classList.remove("checking");
+            node.classList.remove("is-checking");
+            $("#mainLock").classList.remove("thinking");
+
+            var ok = (val === norm(q.answer));
+            if(!ok && Array.isArray(q.accept)){
+              ok = q.accept.some(function(a){ return norm(a) === val; });
+            }
+
+            if(ok){
+              btn.innerHTML = "✓";
+              btn.disabled = true;
+              input.disabled = true;
+              fb.className = "feedback show ok";
+              fb.innerHTML = "<b>✓ Correcto</b>" + rnd(CORRECT_PHRASES);
+              solved[i] = true;
+              save();
+              renderCode(i);
+              renderProgress(i);
+              setTimeout(function(){ advance(i); }, 1000);
+            }else{
+              btn.innerHTML = "Comprobar";
+              fb.className = "feedback show";
+              fb.textContent = rnd(WRONG_PHRASES);
+              row.classList.remove("shake");
+              void row.offsetWidth;
+              row.classList.add("shake");
+              // en el celular no forzamos el teclado: se ve la animación y ella decide
+              if(isTouch){ input.value = ""; }
+              else{ input.focus(); input.select(); }
+            }
+          }, CHECK_MS);
+        }
+        btn.addEventListener("click", check);
+        input.addEventListener("keydown", function(e){
+          if(e.key === "Enter"){ e.preventDefault(); check(); }
+        });
+
+      }else{
+        node = el("div","q locked");
+        node.appendChild(el("div",null,'<svg class="mini" viewBox="0 0 24 24"><use href="#ic-lock-mini"/></svg>'));
+        node.appendChild(el("div","txt","Pregunta " + (i+1) + " · se abre cuando resuelvas la anterior."));
+      }
+
+      node.style.animationDelay = Math.min(i,6) * 0.05 + "s";
+      box.appendChild(node);
+    });
+  }
+
+  function advance(fromIndex){
+    if(currentIndex() === -1){
+      renderQuestions();
+      unlockAll();
+      return;
+    }
+    renderQuestions();
+    updateMinibar();
+    var act = $("#q-active");
+    if(act){
+      act.scrollIntoView({behavior:"smooth", block:"center"});
+      // en escritorio enfocamos solos; en celular no, para no tapar todo con el teclado
+      if(!isTouch){
+        setTimeout(function(){
+          var inp = $(".answer-input", act);
+          if(inp) inp.focus();
+        }, 700);
+      }
+    }
+  }
+
+  /* ---------- apertura del candado ---------- */
+  function heartBurst(){
+    var b = el("div","burst");
+    document.body.appendChild(b);
+    var lock = $("#mainLock").getBoundingClientRect();
+    for(var i=0;i<16;i++){
+      var h = el("i",null, Math.random()>.5 ? "♥" : "♡");
+      h.style.left = (lock.left + lock.width/2 + (Math.random()*80-40)) + "px";
+      h.style.top  = (lock.top  + lock.height/2) + "px";
+      h.style.fontSize = (11 + Math.random()*17) + "px";
+      h.style.setProperty("--dx", (Math.random()*220-110) + "px");
+      h.style.animationDelay = (Math.random()*.5) + "s";
+      h.style.opacity = 0;
+      b.appendChild(h);
+    }
+    setTimeout(function(){ b.remove(); }, 2600);
+  }
+
+  function unlockAll(silent){
+    finished = true;
+    var lock = $("#mainLock");
+    var cap  = $("#lockCaption");
+
+    // ya estaba abierto (vuelve a entrar): sin animación
+    if(silent){
+      lock.classList.add("open","hanging");
+      cap.textContent = "El candado ya está abierto ❤️";
+      $("#final").classList.add("show");
+      return;
+    }
+
+    // 1 · el código se completa y el candado empieza a forcejear
+    setTimeout(function(){
+      lock.scrollIntoView({behavior:"smooth", block:"center"});
+      cap.textContent = "El código está completo...";
+      lock.classList.add("unlocking");
+
+      // 2 · clic: se libera el arco
+      setTimeout(function(){
+        lock.classList.remove("unlocking");
+        void lock.offsetWidth;          // reinicia las animaciones
+        lock.classList.add("open");
+        cap.textContent = "🔓 Se abrió ❤️";
+        heartBurst();
+
+        // 3 · queda colgando, balanceándose
+        setTimeout(function(){ lock.classList.add("hanging"); }, 1300);
+
+        // 4 · aparece el mensaje final
+        setTimeout(function(){
+          var f = $("#final");
+          f.classList.add("show");
+          setTimeout(function(){ f.scrollIntoView({behavior:"smooth", block:"center"}); }, 300);
+        }, 1000);
+
+      }, 1450);
+    }, 650);
+  }
+
+  /* ---------- carta final ---------- */
+  function buildLetter(){
+    $("#letterTitle").textContent = FINAL_MESSAGE.title || "";
+    var body = $("#letterBody");
+    body.innerHTML = "";
+    (FINAL_MESSAGE.lines || []).forEach(function(t,i){
+      var p = el("p",null,t);
+      p.style.animationDelay = (0.15 + i*0.16) + "s";
+      body.appendChild(p);
+    });
+    $("#letterSign").textContent = FINAL_MESSAGE.signature || "";
+    var zone = $("#letterBtnZone");
+    zone.innerHTML = "";
+    var b = FINAL_MESSAGE.button;
+    if(b && b.label && b.url){
+      var a = el("a","btn", b.label);
+      a.href = b.url; a.target = "_blank"; a.rel = "noopener";
+      zone.appendChild(a);
+    }
+  }
+
+  /* ---------- navegación de pantallas ---------- */
+  function go(id){
+    var cur = document.querySelector(".screen.active");
+    var next = document.getElementById(id);
+    if(cur === next) return;
+    if(cur){
+      cur.classList.add("leaving");
+      setTimeout(function(){
+        cur.classList.remove("active","leaving");
+        next.classList.add("active");
+        window.scrollTo(0,0);
+        updateMinibar();
+      }, 340);
+    }else{
+      next.classList.add("active");
+    }
+  }
+
+  /* ---------- arranque ---------- */
+  load();
+  if(typeof HER_NAME === "string" && HER_NAME){
+    $("#askLine").textContent = "¿Te animás, " + HER_NAME + "? ❤️";
+  }
+  renderCode();
+  renderProgress();
+  renderQuestions();
+  buildLetter();
+  if(currentIndex() === -1 && TOTAL > 0) unlockAll(true);
+
+  $("#btnStart").addEventListener("click", function(){
+    go("screen-lock");
+  });
+
+  $("#btnSurprise").addEventListener("click", function(){
+    if(typeof FINAL_SURPRISE_URL === "string" && FINAL_SURPRISE_URL.trim() && FINAL_SURPRISE_URL.trim() !== "#"){
+      window.location.href = FINAL_SURPRISE_URL.trim();
+    }else{
+      go("screen-letter");
+    }
+  });
+
+  // el enlace "reiniciar" solo tiene sentido si se guarda el progreso
+  if(!SAVE_PROGRESS){
+    $("#btnReset").style.display = "none";
+  }else{
+    $("#btnReset").addEventListener("click", function(){
+      if(!confirm("¿Empezar de nuevo? Se borra el progreso.")) return;
+      wipe();
+      location.reload();
+    });
+  }
+
+})();
+</script>
+</body>
+</html>
